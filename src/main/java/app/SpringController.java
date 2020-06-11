@@ -23,12 +23,11 @@ public class SpringController {
         return cdb.readById(new ArrayList<String>(Arrays.asList(productId)));
 
     }
-
-
-  @RequestMapping(value = "/searchByName/{name}",method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/searchByName/{name}",method = RequestMethod.GET,produces = "application/json")
     public String findbyName(@PathVariable(value="name") String name)
     {
-        return name;
+        return cdb.readByName(new ArrayList<String>(Arrays.asList(name)));
+
     }
 
 

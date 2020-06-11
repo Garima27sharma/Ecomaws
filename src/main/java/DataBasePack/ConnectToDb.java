@@ -18,12 +18,9 @@ public class ConnectToDb {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/productdb", "root", "Automatic@123");
-//here productdb is database name, root is username and password
+            //here productdb is database name, root is username and password
             stmt=con.createStatement();
-            //WriteDB();
-           // ReadDB();
             //con.close();
-
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -33,9 +30,8 @@ public class ConnectToDb {
             ObjectMapper objectmapper=new ObjectMapper();
             ArrayNode arrayNode=objectmapper.createArrayNode();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-
-
+            while (rs.next())
+            {
                 ObjectNode  objectNode=objectmapper.createObjectNode();
 
                 //System.out.println(rs.getString(1) + "  " + rs.getString(2) + "  " + rs.getLong(3) + "  " + rs.getString(4) + "  " + rs.getString(5) + " " + rs.getDouble(6));
@@ -53,11 +49,9 @@ public class ConnectToDb {
         catch (Exception e)
         {
             e.printStackTrace();
-
         }
         return null;
     }
-
 
     public String readById(List<String> idList)
     {
@@ -74,12 +68,27 @@ public class ConnectToDb {
         System.out.println(query);
         return readDB(query);
     }
+
+    public String readByName(List<String> nameList)
+    {
+        String query="select * from product where name in (";
+        for(int i=0;i<nameList.size();i++)
+        {
+            query= query+'"'+nameList.get(i)+'"';
+            if(i!=nameList.size()-1)
+            {
+                query=query+",";
+            }
+        }
+        query=query+")";
+        System.out.println(query);
+        return readDB(query);
+    }
     public void WriteDB()
     {
         try{
 
             System.out.println("Inserting records into the table...");
-
                     /*String sql = ("INSERT INTO product" +"VALUES ('A106','ponds',80,'white','Body_cream',2)");
                         stmt.executeUpdate(sql);*/
             System.out.println("Inserted records into the table...");
@@ -103,7 +112,7 @@ public class ConnectToDb {
     public static void main(String args[]){
 
             ConnectToDb DB1=new ConnectToDb();
-            System.out.println(DB1.readById(new ArrayList<String>(Arrays.asList("A105","A103"))));//WriteDB();
+          //  System.out.println(DB1.readById(new ArrayList<String>(Arrays.asList("A105","A103"))));//WriteDB();
 
 
     }
